@@ -4,20 +4,23 @@ import React, {useState }  from 'react';
 import { Redirect } from "react-router-dom"
 import {Card, Button } from 'react-bootstrap'
 import Form from "react-jsonschema-form";
+import LayoutField from "react-jsonschema-form-layout-grid"
 
+import { get_base_url } from '../../config'
 import { useGlobalReducer } from '../../Store';
-import { useFetch } from '../../hooks/useFetch';
-
 import { SET_ALTA_BACKEND_QUERY } from '../../reducers/GlobalStateReducer'
 
-import LayoutField from "react-jsonschema-form-layout-grid"
-import { url } from '../Main'
+import { useFetch } from '../../hooks/useFetch';
+
 
 export default function Query(props) {
-    // local query state so that this page renders when it is changed
+
+    // react hooks
     const [query, setQuery] = useState("")
     const [redirect, setRedirect] = useState(false)
-    const response = useFetch(url, {})
+
+    // custom hooks
+    const response = useFetch(get_base_url(), {})
     const [my_state, my_dispatch] = useGlobalReducer()
 
     const log = (type) => console.log.bind(console, type);
@@ -74,6 +77,7 @@ export default function Query(props) {
 
     // handle the submit and dispatch an action accordingly
     const handleSubmit = ({formData}, e) => {
+
         // construct the query to the ALTA backend (REST API)
         let query = "?"
         if (formData.source) {
@@ -92,11 +96,11 @@ export default function Query(props) {
         my_dispatch({type: SET_ALTA_BACKEND_QUERY, alta_backend_query: query})
 
         // execute the useFetch hook with the new url
-        let new_url = url + query
+        let new_url = get_base_url() + query
         response.fetchData(new_url)
 
+        // indicate that the query operation is finished and jump back to the obseration screen.
         setRedirect(true)
-
     }
 
     const handleError = ({errors}, e) => {
@@ -122,8 +126,7 @@ export default function Query(props) {
                               onSubmit={handleSubmit}
                               onError={handleError} >
 
-
-                            <button type="submit" >MySubmit</button>
+                            <button type="submit" >Do Query</button>
 
                         </Form>
                 </Card.Body>

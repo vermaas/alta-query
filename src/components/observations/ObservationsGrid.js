@@ -2,9 +2,10 @@ import React from 'react';
 import { Link } from "react-router-dom"
 import { Button } from 'react-bootstrap';
 import DataTable from 'react-data-table-component';
+
+import { get_base_url } from '../../config'
 import { useGlobalReducer } from '../../Store';
 import { SET_ACTIVE_TASKID } from '../../reducers/GlobalStateReducer'
-import { url } from '../Main'
 
 export default function ObservationsGrid(props) {
     const [ my_state , my_dispatch] = useGlobalReducer()
@@ -22,7 +23,7 @@ export default function ObservationsGrid(props) {
 
     // generate the api link
     const getAPI = (observation) => {
-        let api_link = url + '/' + observation.id.toString()
+        let api_link = get_base_url() + '/' + observation.id.toString()
         return api_link
     }
 

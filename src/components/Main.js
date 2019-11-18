@@ -23,13 +23,6 @@ import {
     useParams
 } from "react-router-dom";
 
-// the url to the backend
-// the data is fetched at the start of the application for performance reasons,
-// but also to have direct links to the details page working, like http://localhost:3000/details/090311003
-
-// export const url = "http://localhost:8000/astrobase/observations"
-// export const url = "http://uilennest.net:81/astrobase/observations"
-export const url = "http://localhost:8000/altapi/observations"
 
 // This site has multiple pages, all of which are rendered
 // dynamically in the browser (not server rendered).
@@ -48,6 +41,8 @@ function Main () {
     // a timer is used for a 60 second polling of the data.
     const [timer, setTimer] = useState(undefined)
 
+    const response = useFetch(get_base_url(),{onMount:true})
+
     // this executes fetchObservations only once (because the 'dependencies array' is empty: [])
 /*
     useEffect(() => {
@@ -55,9 +50,10 @@ function Main () {
         },[]
     );
 */
+    // TODO: move this to useFetch, just like the other useEffect
     // this executes 'setTimer' once, which refreshes the observationlist every minute.
     useEffect(() => {
-            setTimer(setInterval(() => fetchObservations(get_base_url), 60000))
+            setTimer(setInterval(() => fetchObservations(get_base_url()), 60000))
 
             // this function is automatically called when the component unmounts
             return function cleanup() {
@@ -91,7 +87,8 @@ function Main () {
     }
 
     // call the custom fetch hook... also continue when res.response is false to render the rest of the site.
-    let res = useFetch(url,{onMount:true})
+    let res = useFetch(get_base_url(),{onMount:true})
+    //res = useFetch(get_base_url(),{timer:10000})
 
     return (
         <Router basename="alta-components">
