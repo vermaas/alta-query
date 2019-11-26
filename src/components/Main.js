@@ -9,9 +9,9 @@ import { useFetch } from '../hooks/useFetch';
 import { NavigationBar } from './NavigationBar';
 import { Home } from './Home';
 import ObservationsPage from '../routes/observations/ObservationsPage';
-import ObservationDetails from '../routes/observations/ObservationDetails';
+import ObservationDetails from '../routes/details/ObservationDetails';
 
-import Query from '../routes/query/Query';
+import Query from '../routes/query/QueryPage';
 import { About } from './About';
 import StatusPanel from './StatusPanel';
 

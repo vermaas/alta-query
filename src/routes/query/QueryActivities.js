@@ -13,7 +13,7 @@ import { SET_ALTA_QUERY } from '../../reducers/GlobalStateReducer'
 import { useFetch } from '../../hooks/useFetch';
 
 
-export default function Query(props) {
+export default function QueryActivities(props) {
 
     // react hooks
     const [query, setQuery] = useState("")
@@ -26,26 +26,15 @@ export default function Query(props) {
     const log = (type) => console.log.bind(console, type);
 
     const schema = {
-        "title": "Search Observations",
+        "title": "Search Activities",
         "type": "object",
         "properties": {
-            "source": {type: "string", title: "Source"},
-            "runId": {type: "string", title: "RunId"},
-            "runId_start": {type: "string", title: "TaskID Start", default: ""},
-            "runId_end": {type: "string", title: "TaskID End", default: ""},
+            "runId": {type: "string", title: "RunId (contains)"},
 
-            "starttime": {
-                "type": "string",
-                "format": "date-time",
-                "title": "Start Time"
-            },
-            "endtime": {
-                "type": "string",
-                "format": "date-time",
-                "title": "End Time"
-            },
+            "datasetID": {type: "string", title: "RunId (provenance)"},
+            "release_id": {type: "string", title: "Release"},
 
-            "targets_only": {type: "boolean", title: "Targets Only?", default: true},
+
             "frontendQuery": {
                 type: "boolean",
                 title: "ALTA Frontend Query",
@@ -85,24 +74,22 @@ export default function Query(props) {
     // The query itself is similar for the frontend and backend.
     const constructQuery = (formData) => {
         let query = ""
-        if (formData.source) {
-            query = query + "&target__icontains=" + formData.source.trim()
-        }
 
         if (formData.runId) {
-            query = query + "&datasetID__icontains=" + formData.runId.trim()
+            query = query + "&runId__icontains=" + formData.runId.trim()
         }
 
-        if (formData.runId_start) {
-            query = query + "&runId__gte=" + formData.runId_start
+        if (formData.datasetID) {
+            query = query + "&datasetID__icontains=" + formData.datasetID.trim()
         }
 
-        if (formData.runId_end) {
-            query = query + "&runId__lte=" + formData.runId_end
+        if (formData.release_id) {
+            query = query + "&release__id=" + formData.runId.trim()
         }
 
         // cut off the leading &
         query = query.substr(1)
+        query = "activities/" + query
 
         // dispatch the query as state to the global store
         my_dispatch({type: SET_ALTA_QUERY, alta_query: query})
@@ -135,6 +122,16 @@ export default function Query(props) {
     }
 
     // handle the submit and dispatch an action accordingly
+    const showQuery = (formData) => {
+        // construct the query to the ALTA backend (REST API)
+        let query = constructQuery(formData)
+
+        // execute the useFetch hook with the new url
+        let new_url = get_base_url() + '?' + query
+        alert(new_url)
+    }
+
+    // handle the submit and dispatch an action accordingly
     const handleSubmit = ({formData}, e) => {
         if (formData.frontendQuery) {
             queryALTAFrontend(formData)
@@ -155,24 +152,21 @@ export default function Query(props) {
         renderRedirect = <Redirect to="/observations"/>
     }
 
+    // <Button variant="primary" onClick={showQuery}>Show Query</Button>&nbsp;
     return (
         <div >
             {renderRedirect}
-            <Card className="card-query">
-                <Card.Body>
-                        <Form schema={schema}
-                              uiSchema={uiSchema}
-                              onChange={log("changed")}
-                              ObjectFieldTemplate={myObjectFieldTemplate}
-                              onSubmit={handleSubmit}
-                              onError={handleError} >
 
-                            <Button type="submit" variant="primary">Execute Query</Button>&nbsp;
+            <Form schema={schema}
+                  uiSchema={uiSchema}
+                  onChange={log("changed")}
+                  ObjectFieldTemplate={myObjectFieldTemplate}
+                  onSubmit={handleSubmit}
+                  onError={handleError} >
 
-                        </Form>
-                </Card.Body>
+                <Button type="submit" variant="warning">Execute Query</Button>&nbsp;
 
-            </Card>
+            </Form>
         </div>
     );
 

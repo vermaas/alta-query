@@ -5,7 +5,7 @@ import { useGlobalReducer } from '../../Store';
 import { deg2HMS, deg2DMS} from '../../utils/astro'
 import { getUrlESASky, getUrlSDSS, getUrlCDSPortal} from '../../utils/skyserver'
 
-import DetailsThumbnail from '../../components/DetailsThumbnail'
+import DetailsThumbnail from './DetailsThumbnail'
 import ImageCard from '../../components/ImageCard'
 import AltaLink from '../../components/AltaLink'
 
