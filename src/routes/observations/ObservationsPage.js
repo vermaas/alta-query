@@ -2,7 +2,7 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 
-import LoadingSpinner from '../LoadingSpinner';
+import LoadingSpinner from '../../components/LoadingSpinner';
 import ObservationTiles from './ObservationTiles'
 import ObservationsGrid from './ObservationsGrid'
 import { useGlobalReducer } from '../../Store';

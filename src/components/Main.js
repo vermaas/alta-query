@@ -8,10 +8,10 @@ import { useFetch } from '../hooks/useFetch';
 
 import { NavigationBar } from './NavigationBar';
 import { Home } from './Home';
-import ObservationsPage from './observations/ObservationsPage';
-import ObservationDetails from './observations/ObservationDetails';
+import ObservationsPage from '../routes/observations/ObservationsPage';
+import ObservationDetails from '../routes/observations/ObservationDetails';
 
-import Query from './query/Query';
+import Query from '../routes/query/Query';
 import { About } from './About';
 import StatusPanel from './StatusPanel';
 
@@ -119,6 +119,11 @@ function Main () {
                     <Route path="/about">
                         <About />
                     </Route>
+
+                    <Route path='/alta' component={() => {
+                        window.location.href = 'https://alta.astron.nl';
+                        return null;
+                    }}/>
 
                     <Route path="/details/:id" children={<ObservationDetailsForward />} />
                 </Switch>

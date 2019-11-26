@@ -5,7 +5,7 @@ import logo from '../assets/logo.ico';
 import { useGlobalReducer } from '../Store';
 import { NavLink } from "react-router-dom"
 
-import SearchButton from './query/SearchButton'
+import SearchButton from '../routes/query/SearchButton'
 
 function getLink(taskid) {
     let details_link = "/details/" + taskid

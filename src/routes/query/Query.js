@@ -6,9 +6,9 @@ import {Card, Button } from 'react-bootstrap'
 import Form from "react-jsonschema-form";
 import LayoutField from "react-jsonschema-form-layout-grid"
 
-import { get_base_url } from '../../config'
+import { get_base_url, get_alta_frontend_url } from '../../config'
 import { useGlobalReducer } from '../../Store';
-import { SET_ALTA_BACKEND_QUERY } from '../../reducers/GlobalStateReducer'
+import { SET_ALTA_QUERY } from '../../reducers/GlobalStateReducer'
 
 import { useFetch } from '../../hooks/useFetch';
 
@@ -30,6 +30,7 @@ export default function Query(props) {
         "type": "object",
         "properties": {
             "source": {type: "string", title: "Source"},
+            "runId": {type: "string", title: "RunId"},
             "runId_start": {type: "string", title: "TaskID Start", default: ""},
             "runId_end": {type: "string", title: "TaskID End", default: ""},
 
@@ -45,6 +46,12 @@ export default function Query(props) {
             },
 
             "targets_only": {type: "boolean", title: "Targets Only?", default: true},
+            "frontendQuery": {
+                type: "boolean",
+                title: "ALTA Frontend Query",
+                default: true,
+                "description": ""
+            },
         }
     };
 
@@ -74,14 +81,16 @@ export default function Query(props) {
         );
     }
 
-
-    // handle the submit and dispatch an action accordingly
-    const handleSubmit = ({formData}, e) => {
-
-        // construct the query to the ALTA backend (REST API)
-        let query = "?"
+    // construct the query.
+    // The query itself is similar for the frontend and backend.
+    const constructQuery = (formData) => {
+        let query = ""
         if (formData.source) {
             query = query + "&target__icontains=" + formData.source.trim()
+        }
+
+        if (formData.runId) {
+            query = query + "&datasetID__icontains=" + formData.runId.trim()
         }
 
         if (formData.runId_start) {
@@ -92,16 +101,48 @@ export default function Query(props) {
             query = query + "&runId__lte=" + formData.runId_end
         }
 
+        // cut off the leading &
+        query = query.substr(1)
+
         // dispatch the query as state to the global store
-        my_dispatch({type: SET_ALTA_BACKEND_QUERY, alta_backend_query: query})
+        my_dispatch({type: SET_ALTA_QUERY, alta_query: query})
+
+        return query
+    }
+
+    // handle the submit and dispatch an action accordingly
+    const queryALTABackend = (formData) => {
+        // construct the query to the ALTA backend (REST API)
+        let query = constructQuery(formData)
 
         // execute the useFetch hook with the new url
-        let new_url = get_base_url() + query
+        let new_url = get_base_url() + '?' + query
         response.fetchData(new_url)
 
         // indicate that the query operation is finished and jump back to the obseration screen.
         setRedirect(true)
     }
+
+    // handle the submit and dispatch an action accordingly
+    const queryALTAFrontend = (formData) => {
+        // construct the query to the ALTA frontend
+        let query = constructQuery(formData)
+
+        // redirect to ALTA by rudely leaving this application and forward to ALTA.
+        let new_url = get_alta_frontend_url() + '/' + query
+        window.location = new_url
+
+    }
+
+    // handle the submit and dispatch an action accordingly
+    const handleSubmit = ({formData}, e) => {
+        if (formData.frontendQuery) {
+            queryALTAFrontend(formData)
+        } else {
+            queryALTABackend(formData)
+        }
+    }
+
 
     const handleError = ({errors}, e) => {
         alert(errors)
@@ -126,7 +167,7 @@ export default function Query(props) {
                               onSubmit={handleSubmit}
                               onError={handleError} >
 
-                            <button type="submit" >Do Query</button>
+                            <Button type="submit" variant="primary">Execute Query</Button>&nbsp;
 
                         </Form>
                 </Card.Body>

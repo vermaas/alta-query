@@ -20,7 +20,7 @@ function StatusPanel(props) {
                     <ul>
                         <li>{process.env.NODE_ENV}</li>
                         <li>status = {my_state.status}</li>
-                        <li>query = {my_state.alta_backend_query}</li>
+                        <li>query = {my_state.alta_query}</li>
                         <li>fetched = {render_fetched} </li>
                     </ul>
                 </Card.Body>

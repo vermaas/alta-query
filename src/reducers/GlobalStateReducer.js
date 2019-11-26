@@ -9,7 +9,7 @@ export const SET_FETCHED_OBSERVATIONS = 'SET_FETCHED_OBSERVATIONS'
 export const SET_FILTERED_OBSERVATIONS = 'SET_FILTERED_OBSERVATIONS'
 export const SET_IMAGE_TYPE = 'SET_IMAGE_TYPE'
 export const SET_THUMBNAIL_IMAGE_TYPE = 'SET_THUMBNAIL_IMAGE_TYPE'
-export const SET_ALTA_BACKEND_QUERY = 'SET_ALTA_BACKEND_QUERY'
+export const SET_ALTA_QUERY = 'SET_ALTA_QUERY'
 
 export const initialState = {
         status: "unfetched",
@@ -19,7 +19,7 @@ export const initialState = {
         filtered_observations: undefined,
         image_type: "raw",
         thumbnail_image_type: "sky_plot",
-        alta_backend_query: ""
+        alta_query: ""
 }
 
 export const reducer = (state, action) => {
@@ -74,10 +74,10 @@ export const reducer = (state, action) => {
                 thumbnail_image_type: action.thumbnail_image_type
             };
 
-        case SET_ALTA_BACKEND_QUERY:
+        case SET_ALTA_QUERY:
             return {
                 ...state,
-                alta_backend_query: action.alta_backend_query
+                alta_query: action.alta_query
             };
 
         default:
