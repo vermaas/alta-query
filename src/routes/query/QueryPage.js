@@ -6,7 +6,7 @@ import {Card, Button } from 'react-bootstrap'
 import Form from "react-jsonschema-form";
 import LayoutField from "react-jsonschema-form-layout-grid"
 
-import { get_base_url, get_alta_frontend_url } from '../../config'
+import { get_base_url, get_alta_frontend_query_url } from '../../config'
 import { useGlobalReducer } from '../../Store';
 import { SET_ALTA_QUERY } from '../../reducers/GlobalStateReducer'
 import QueryActivities from './QueryActivities'
@@ -131,7 +131,7 @@ export default function Query(props) {
         let query = constructQuery(formData)
 
         // redirect to ALTA by rudely leaving this application and forward to ALTA.
-        let new_url = get_alta_frontend_url() + '/' + query
+        let new_url = get_alta_frontend_query_url() + '/' + query
         window.location = new_url
 
     }

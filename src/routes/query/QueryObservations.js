@@ -6,7 +6,7 @@ import {Card, Button } from 'react-bootstrap'
 import Form from "react-jsonschema-form";
 import LayoutField from "react-jsonschema-form-layout-grid"
 
-import { get_base_url, get_alta_frontend_url } from '../../config'
+import { get_base_url, get_alta_frontend_query_url, get_alta_frontend_observations_url } from '../../config'
 import { useGlobalReducer } from '../../Store';
 import { SET_ALTA_QUERY } from '../../reducers/GlobalStateReducer'
 
@@ -128,8 +128,14 @@ export default function QueryObservations(props) {
         // cut off the leading &
         query = query.substr(1)
         query = "observations/" + query
-
-
+/*
+        if (query != "") {
+            query = "observations/" + query
+        } else {
+            // an empty query should not end in a /
+            query = "observations/none"
+        }
+*/
         // dispatch the query as state to the global store
         my_dispatch({type: SET_ALTA_QUERY, alta_query: query})
 
@@ -140,7 +146,6 @@ export default function QueryObservations(props) {
     const showQuery = (formData) => {
         // construct the query to the ALTA backend (REST API)
         let query = constructQuery(formData)
-
         // execute the useFetch hook with the new url
         let new_url = get_base_url() + '?' + query
         console.log(new_url)
@@ -164,8 +169,17 @@ export default function QueryObservations(props) {
         // construct the query to the ALTA frontend
         let query = constructQuery(formData)
 
+        let new_url
+        if (query.endsWith('/')) {
+            // query is empty, forward to the observations url
+            new_url = get_alta_frontend_observations_url()
+        } else {
+            // query is not empty, forward to the query rul
+            new_url = get_alta_frontend_query_url() + '/' + query
+        }
+
         // redirect to ALTA by rudely leaving this application and forward to ALTA.
-        let new_url = get_alta_frontend_url() + '/' + query
+        // let new_url = get_alta_frontend_observations_url() + '?' + query
         console.log(new_url)
         window.location = new_url
 
