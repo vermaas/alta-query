@@ -11,9 +11,9 @@ import { Home } from './Home';
 import ObservationsPage from '../routes/observations/ObservationsPage';
 import ObservationDetails from '../routes/details/ObservationDetails';
 
-import Query from '../routes/query/QueryPage';
+import QueryPage from '../routes/query/QueryPage';
 import { About } from './About';
-import StatusPanel from './StatusPanel';
+
 
 
 import {
@@ -113,7 +113,7 @@ function Main () {
                     </Route>
 
                     <Route path="/query">
-                        <Query />
+                        <QueryPage />
                     </Route>
 
                     <Route path="/about">
@@ -128,7 +128,7 @@ function Main () {
                     <Route path="/details/:id" children={<ObservationDetailsForward />} />
                 </Switch>
             </div>
-            <StatusPanel/>
+
             <footer><small> (C) 2019 ASTRON - Nico Vermaas - version 1.0.0 - 11 nov 2019</small></footer>
         </Router>
     );

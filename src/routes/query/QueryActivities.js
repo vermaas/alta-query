@@ -37,7 +37,7 @@ export default function QueryActivities(props) {
 
             "frontendQuery": {
                 type: "boolean",
-                title: "ALTA Frontend Query",
+                title: "ALTA Frontend QueryPage",
                 default: true,
                 "description": ""
             },
@@ -152,7 +152,7 @@ export default function QueryActivities(props) {
         renderRedirect = <Redirect to="/observations"/>
     }
 
-    // <Button variant="primary" onClick={showQuery}>Show Query</Button>&nbsp;
+    // <Button variant="primary" onClick={showQuery}>Show QueryPage</Button>&nbsp;
     return (
         <div >
             {renderRedirect}

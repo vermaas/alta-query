@@ -29,20 +29,13 @@ export default function QueryObservations(props) {
         "title": "Search Observations",
         "type": "object",
         "properties": {
-            "source": {type: "string", title: "Target"},
-            "runId": {type: "string", title: "RunId"},
-            "runId_start": {type: "string", title: "TaskID Start", default: ""},
-            "runId_end": {type: "string", title: "TaskID End", default: ""},
+            "source": {"type": "string", "title": "Target"},
+            "runId": {"type": "string", "title": "RunId (contains)"},
 
             "starttime": {
                 "type": "string",
                 "format": "date-time",
                 "title": "Start Time"
-            },
-            "endtime": {
-                "type": "string",
-                "format": "date-time",
-                "title": "End Time"
             },
             "RA": {
                 "type": "number",
@@ -56,11 +49,11 @@ export default function QueryObservations(props) {
                 "type": "number",
                 "title": "search radius (degrees)"
             },
-            "targets_only": {type: "boolean", title: "Targets Only?", default: true},
+            "targets_only": {"type": "boolean", "title": "Targets Only?", "default": true},
             "frontendQuery": {
-                type: "boolean",
-                title: "ALTA Frontend Query",
-                default: true,
+                "type": "boolean",
+                "title": "ALTA Frontend QueryPage",
+                "default": true,
                 "description": ""
             },
         }
@@ -105,14 +98,6 @@ export default function QueryObservations(props) {
             query = query + "&datasetID__icontains=" + formData.runId.trim()
         }
 
-        if (formData.runId_start) {
-            query = query + "&runId__gte=" + formData.runId_start
-        }
-
-        if (formData.runId_end) {
-            query = query + "&runId__lte=" + formData.runId_end
-        }
-
         if (formData.RA) {
             query = query + "&view_ra=" + formData.RA
         }
@@ -137,7 +122,7 @@ export default function QueryObservations(props) {
         }
 */
         // dispatch the query as state to the global store
-        my_dispatch({type: SET_ALTA_QUERY, alta_query: query})
+        my_dispatch({"type": SET_ALTA_QUERY, alta_query: query})
 
         return query
     }
@@ -197,7 +182,7 @@ export default function QueryObservations(props) {
 
     const handleError = ({errors}, e) => {
         alert(errors)
-        //my_dispatch({type: SET_IMAGE_TYPE, image_type: imageType})
+        //my_dispatch({"type": SET_IMAGE_TYPE, image_"type": imageType})
     }
 
     // if redirect is set (by the submit button) then redirect to the observation page to see the results
@@ -206,7 +191,7 @@ export default function QueryObservations(props) {
         renderRedirect = <Redirect to="/observations"/>
     }
 
-    // <Button type="submit" variant="primary" onClick={showQuery}>Show Query</Button>&nbsp;
+    // <Button type="submit" variant="primary" onClick={showQuery}>Show QueryPage</Button>&nbsp;
     return (
         <div >
             {renderRedirect}

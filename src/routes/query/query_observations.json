@@ -1,0 +1,34 @@
+{
+  "title": "Search Observations",
+  "type": "object",
+  "properties": {
+    "source": {
+      "type": "string", title: "Target"},
+    "runId": {type: "string", title: "RunId (contains)"},
+
+    "starttime": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Start Time"
+    },
+    "RA": {
+      "type": "number",
+      "title": "RA (degrees)"
+    },
+    "dec": {
+      "type": "number",
+      "title": "dec (degrees)"
+    },
+    "fov": {
+      "type": "number",
+      "title": "search radius (degrees)"
+    },
+    "targets_only": {type: "boolean", title: "Targets Only?", default: true},
+    "frontendQuery": {
+      type: "boolean",
+      title: "ALTA Frontend QueryPage",
+      default: true,
+      "description": ""
+    },
+  }
+}

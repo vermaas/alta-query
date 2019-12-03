@@ -6,6 +6,7 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 import ObservationTiles from './ObservationTiles'
 import ObservationsGrid from './ObservationsGrid'
 import { useGlobalReducer } from '../../Store';
+import StatusPanel from '../../components/StatusPanel';
 
 export default function Observations(props) {
 
@@ -38,7 +39,7 @@ export default function Observations(props) {
                         </Row>
                     </Container>
                 }
-
+            <StatusPanel/>
         </div>
     );
 }
