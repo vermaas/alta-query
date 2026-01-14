@@ -13,7 +13,7 @@
     "react-jsonschema-form": "^2.0.0-alpha.1",
     "react-jsonschema-form-layout-grid": "^2.1.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.2.0",
+    "react-scripts": "5.0.1",
     "styled-components": "^4.4.1"
   },
   "scripts": {
